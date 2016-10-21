@@ -27,7 +27,7 @@ class PeopleViewController: UITableViewController {
     }
     
     func reloadPuppeteers(_ notification: Notification) {
-        processPuppeteersArray()
+        // processPuppeteersArray()
         self.tableView.reloadData()
     }
     

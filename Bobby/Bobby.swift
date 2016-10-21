@@ -5,9 +5,9 @@ struct GlobalConstants {
     static let documents_directory = documents_paths.object(at: 0) as! NSString
     static let avatars_directory = documents_directory.appendingPathComponent("avatars") as NSString
     static let api_ping_pong = "https://robby.puppetlabs.net/ping" as String
-    static let api_people_plist = "https://robby.puppetlabs.net/people.plist" as String
-    static let api_places_plist = "https://robby.puppetlabs.net/resources.plist" as String
-    static let api_avatars_plist = "https://robby.puppetlabs.net/avatars/" as String
+    static let api_people_url = "https://robby.puppetlabs.net/people" as String
+    static let api_places_url = "https://robby.puppetlabs.net/resources" as String
+    static let api_avatars_url = "http://robby-images.s3.amazonaws.com/" as String
     static let default_avatar = Bundle.main.path(forResource: "generic", ofType: "png")
     static let pdx_floor5 = Bundle.main.path(forResource: "pdx_floor5", ofType: "png")
     static let pdx_floor6 = Bundle.main.path(forResource: "pdx_floor6", ofType: "png")
@@ -15,13 +15,11 @@ struct GlobalConstants {
 
 var pingPong = false
 
-var puppeteersData: NSMutableData?
 var puppeteersArray: NSArray = []
 var puppeteersSectionTitles = NSMutableArray()
 var puppeteersBySection = NSMutableDictionary()
 var puppeteersPhotoArray = NSMutableDictionary()
 
-var placesData: NSMutableData?
 var placesArray: NSArray = []
 var placesSectionTitles = NSMutableArray()
 var placesBySection = NSMutableDictionary()
@@ -58,10 +56,9 @@ func launchPuppetApplication() {
     } else {
         downloadPuppeteersFile()
     }
-    processPuppeteersArray()
 
     downloadPlacesFile()
-    let places_path = GlobalConstants.documents_directory.appendingPathComponent("rooms.plist")
+    let places_path = GlobalConstants.documents_directory.appendingPathComponent("places.plist")
     if (manager.fileExists(atPath: places_path)) {
         if (!readPlacesFile()){
             downloadPlacesFile()
@@ -69,7 +66,6 @@ func launchPuppetApplication() {
     } else {
         downloadPlacesFile()
     }
-    processPlacesArray()
 
     createAvatarsDirectory()
     

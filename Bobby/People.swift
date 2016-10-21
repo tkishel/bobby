@@ -1,21 +1,54 @@
 import Foundation
 
+// http://stackoverflow.com/questions/29092101/json-string-to-nsdictionary-with-swift
+
 func downloadPuppeteersFile() {
     if (!(pingPong)) {
         print("No pingPong!")
         return
     }
-    let url = URL(string: GlobalConstants.api_people_plist)
-    puppeteersData = NSData(data: try! Data(contentsOf: url!)) as Data as Data
-    if (puppeteersData != nil) {
-        let format: UnsafeMutablePointer<PropertyListSerialization.PropertyListFormat> = UnsafeMutablePointer(nil)
-        puppeteersArray = try! PropertyListSerialization.propertyList(from: puppeteersData! as Data, options: PropertyListSerialization.MutabilityOptions.mutableContainersAndLeaves, format: format) as! NSArray
-        print("Downloaded Puppeteers PList")
-        writePuppeteersFile()
-    } else {
-        print("Error Downloading Puppeteers PList")
+    
+    let url = URL(string: GlobalConstants.api_people_url)
+    do {
+        let data = try Data(contentsOf: url!)
+        let dataJSON = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+        if let puppeteers = dataJSON["puppeteer"] {
+            puppeteersSectionTitles.removeAllObjects()
+            puppeteersBySection.removeAllObjects()
+            puppeteersPhotoArray.removeAllObjects()
+            for index in (0...puppeteers.count-1) {
+                let puppeteer = puppeteers[index] as! [String : AnyObject]
+                let first_name = (puppeteer["first_name"] as! String)
+                // TJK Convert JSON object to NSDictionary object, and add to placesArray.
+                let first_character = String(first_name[first_name.startIndex])
+                if (puppeteersBySection.object(forKey: first_character) == nil) {
+                    let puppeteerNamesArray = NSMutableArray()
+                    puppeteersBySection.setValue(puppeteerNamesArray, forKey: first_character)
+                    puppeteersSectionTitles.add(first_character)
+                }
+                (puppeteersBySection.object(forKey: first_character) as! NSMutableArray).add(puppeteer)
+                let profile_photo = puppeteer["photo_path"] as! String
+                if (!(profile_photo.isEmpty)) {
+                    puppeteersPhotoArray.setValue(1, forKey: profile_photo)
+                }
+            }
+            let path = GlobalConstants.documents_directory.appendingPathComponent("people.plist")
+            let result = puppeteersArray.write(toFile: path, atomically: true)
+            if (result) {
+                print("Wrote \(puppeteersArray.count) Puppeteers to Cache")
+            } else {
+                print("Error writing \(puppeteersArray.count) Puppeteers to Cache")
+            }
+            print("Processed \(puppeteersArray.count) Puppeteers")
+        }
+    }
+    catch {
+        print("Error downloading Puppeteers from \(GlobalConstants.api_people_url)")
     }
 }
+
+//var descriptor: NSSortDescriptor = NSSortDescriptor(key: "first_name", ascending: true)
+//var sortedPlacesArray: NSArray = puppeteersArray.sortedArrayUsingDescriptors([descriptor])
 
 func readPuppeteersFile() -> Bool {
     let path = GlobalConstants.documents_directory.appendingPathComponent("people.plist")
@@ -26,17 +59,6 @@ func readPuppeteersFile() -> Bool {
     }
     let result = (puppeteersArray.count > 0)
     print("Read \(puppeteersArray.count) Puppeteers from Cache")
-    return result
-}
-
-func writePuppeteersFile() -> Bool {
-    let path = GlobalConstants.documents_directory.appendingPathComponent("people.plist")
-    let result = puppeteersArray.write(toFile: path, atomically: true)
-    if (result) {
-        print("Wrote \(puppeteersArray.count) Puppeteers to Cache")
-    } else {
-        print("Error Writing \(puppeteersArray.count) Puppeteers to Cache")
-    }
     return result
 }
 
@@ -92,10 +114,10 @@ func downloadPuppeteerPhoto(_ profile_photo: String) {
 
 func downloadPuppeteerPhotoFileHeader(_ profile_photo: String, completion: ((_ photo_date: Date) -> ())?) {
     let noDate = Date(timeIntervalSinceReferenceDate: 0)
-    let photo_url = "\(GlobalConstants.api_avatars_plist)\(profile_photo)"
+    let photo_url = "\(GlobalConstants.api_avatars_url)\(profile_photo)"
     let session = URLSession.shared
     let url = URL(string: photo_url)
-    let request = NSMutableURLRequest(url: url!)
+    var request = URLRequest(url: url!)
     request.httpMethod = "HEAD"
     let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
         if let http_response = response as? HTTPURLResponse {
@@ -109,17 +131,17 @@ func downloadPuppeteerPhotoFileHeader(_ profile_photo: String, completion: ((_ p
                 urlDate = dateFormatter.date(from: url_date as String)!
                 if (completion != nil) {
                     DispatchQueue.main.async(execute: { () -> Void in
-                        completion!(photo_date: urlDate)
+                        completion!(urlDate)
                     })
                 }
             } else {
                 DispatchQueue.main.async(execute: { () -> Void in
-                    completion!(photo_date: noDate)
+                    completion!(noDate)
                 })
             }
         } else {
             DispatchQueue.main.async(execute: { () -> Void in
-                completion!(photo_date: noDate)
+                completion!(noDate)
             })
         }
     })
@@ -135,7 +157,7 @@ func downloadPuppeteerPhotoFile(_ profile_photo: String) -> Data {
     if (profile_photo.isEmpty) {
         return empty_photo_data
     }
-    let url = URL(string: "\(GlobalConstants.api_avatars_plist)\(profile_photo)")
+    let url = URL(string: "\(GlobalConstants.api_avatars_url)\(profile_photo)")
     print("Looking for \(url) Puppeteer Photo")
     if let photo_data = try? Data(contentsOf: url!) {
         print("Read \(profile_photo) Puppeteer Photo from URL")
@@ -194,32 +216,4 @@ func deleteInactivePuppeteerPhotos() {
         }
     }
     print("Deleted Inactive Puppeteer Photos from Cache")
-}
-
-func processPuppeteersArray(){
-    puppeteersSectionTitles.removeAllObjects()
-    puppeteersBySection.removeAllObjects()
-    puppeteersPhotoArray.removeAllObjects()
-    
-    //var descriptor: NSSortDescriptor = NSSortDescriptor(key: "first_name", ascending: true)
-    //var sortedPlacesArray: NSArray = puppeteersArray.sortedArrayUsingDescriptors([descriptor])
-        
-    for item in puppeteersArray {
-        let puppeteer = item as! NSDictionary
-        let first_name = puppeteer["first_name"] as! String
-        if (!(first_name.isEmpty)) {
-            let first_character = String(first_name[first_name.startIndex])
-            if (puppeteersBySection.object(forKey: first_character) == nil) {
-                let puppeteerNamesArray = NSMutableArray()
-                puppeteersBySection.setValue(puppeteerNamesArray, forKey: first_character)
-                puppeteersSectionTitles.add(first_character)
-            }
-            (puppeteersBySection.object(forKey: first_character) as! NSMutableArray).add(puppeteer)
-        }
-        let profile_photo = puppeteer["photo_path"] as! String
-        if (!(profile_photo.isEmpty)) {
-            puppeteersPhotoArray.setValue(1, forKey: profile_photo)
-        }
-    }
-    print("Processed \(puppeteersArray.count) Puppeteers")
 }

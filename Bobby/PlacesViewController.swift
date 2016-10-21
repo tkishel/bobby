@@ -27,7 +27,7 @@ class PlacesViewController: UITableViewController {
     }
     
     func reloadPlaces(_ notification: Notification) {
-        processPlacesArray()
+        // processPlacesArray()
         self.tableView.reloadData()
     }
     
