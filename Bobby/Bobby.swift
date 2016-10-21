@@ -26,25 +26,6 @@ var placesArray: NSArray = []
 var placesSectionTitles = NSMutableArray()
 var placesBySection = NSMutableDictionary()
 
-func ping_async() {
-    pingPong = false;
-    
-    let session = URLSession.shared
-    let url = URL(string: GlobalConstants.api_ping_pong)
-    let request = NSMutableURLRequest(url: url!, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 3)
-    let task = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
-        if let http_response = response as? HTTPURLResponse {
-            if (http_response.statusCode == 200) {
-                pingPong = true;
-            }
-            print("Ping: \(http_response.statusCode)")
-        } else {
-            print("Ping: No HTTP Response")
-        }
-    })
-    task.resume()
-}
-
 // sendSynchronousRequest deprecated
 
 func ping() {
