@@ -3,20 +3,32 @@ import Foundation
 func downloadPlacesFile() {
     if (!(pingPong)) {
         print("No pingPong!")
-        return
+        // return
     }
 
     let url = URL(string: GlobalConstants.api_places_url)
     do {
-        let data = try Data(contentsOf: url!)
-        let dataJSON = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
-        if let places = dataJSON["places"] {
+        //let d_data = try Data(contentsOf: url!)
+        let dd = "{" +
+            "\"places\":[" +
+            "{" +
+            "\"name\":\"R2D2\"" +
+            "}," +
+            "{" +
+            "\"name\":\"3CPO\"" +
+            "}" +
+            "]" +
+        "}"
+        let data = dd.data(using: .utf8)!
+        print(data)
+        if let jsonData = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as! [String:AnyObject] {
+            let places = jsonData["places"] as! [AnyObject]
             placesSectionTitles.removeAllObjects()
             placesBySection.removeAllObjects()
-            for index in (0...places.count-1) {
-                let place = places[index] as! [String : AnyObject]
+            for i in (0...places.count-1) {
+                let place = places[i]
                 let name = (place["name"] as! String)
-                // TJK Convert JSON object to NSDictionary object, and add to placesArray.
+                // placesArray(place) // TJK Convert JSON object to NSDictionary object, and add to placesArray.
                 if (placesBySection.object(forKey: name) == nil) {
                     let placesNamesArray = NSMutableArray()
                     placesBySection.setValue(placesNamesArray, forKey: name)

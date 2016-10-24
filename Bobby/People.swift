@@ -5,21 +5,34 @@ import Foundation
 func downloadPuppeteersFile() {
     if (!(pingPong)) {
         print("No pingPong!")
-        return
+        // return
     }
     
     let url = URL(string: GlobalConstants.api_people_url)
     do {
-        let data = try Data(contentsOf: url!)
-        let dataJSON = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
-        if let puppeteers = dataJSON["puppeteer"] {
+        //let d_data = try Data(contentsOf: url!)
+        let dd = "{" +
+            "\"puppeteeers\":[" +
+            "{" +
+            "\"first_name\":\"Tom\"," +
+            "\"photo_path\":\"tom.kishel.png\"" +
+            "}," +
+            "{" +
+            "\"first_name\":\"Kael\"," +
+            "\"photo_path\":\"\"" +
+            "}" +
+            "]" +
+        "}"
+        let data = dd.data(using: .utf8)!
+        if let jsonData = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as! [String:AnyObject] {
+            let puppeteeers = jsonData["puppeteeers"] as! [AnyObject]
             puppeteersSectionTitles.removeAllObjects()
             puppeteersBySection.removeAllObjects()
             puppeteersPhotoArray.removeAllObjects()
-            for index in (0...puppeteers.count-1) {
-                let puppeteer = puppeteers[index] as! [String : AnyObject]
+            for i in (0...puppeteeers.count-1) {
+                let puppeteer = puppeteeers[i]
                 let first_name = (puppeteer["first_name"] as! String)
-                // TJK Convert JSON object to NSDictionary object, and add to placesArray.
+                // puppeteersArray.append(puppeteer) // TJK Convert JSON object to NSDictionary object, and add to placesArray.
                 let first_character = String(first_name[first_name.startIndex])
                 if (puppeteersBySection.object(forKey: first_character) == nil) {
                     let puppeteerNamesArray = NSMutableArray()
