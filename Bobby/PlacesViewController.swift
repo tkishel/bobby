@@ -22,7 +22,7 @@ class PlacesViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("Loading Places View")
-        ping()
+        pingRobby()
         print("Loaded Places View")
     }
 

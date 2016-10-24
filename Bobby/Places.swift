@@ -1,14 +1,18 @@
 import Foundation
 
+//var descriptor: NSSortDescriptor = NSSortDescriptor(key: "first_name", ascending: true)
+//var sortedPlacesArray: NSArray = puppeteersArray.sortedArrayUsingDescriptors([descriptor])
+
 func downloadPlacesFile() {
     if (!(pingPong)) {
-        print("No pingPong!")
-        // return
+        print("No API!")
+        return
     }
 
     let url = URL(string: GlobalConstants.api_places_url)
     do {
-        //let d_data = try Data(contentsOf: url!)
+        // let d_data = try Data(contentsOf: url!)
+        // TJK For testing before changes to Robby.
         let dd = "{" +
             "\"places\":[" +
             "{" +
@@ -22,7 +26,6 @@ func downloadPlacesFile() {
             "]" +
         "}"
         let data = dd.data(using: .utf8)!
-        print(data)
         if let jsonData = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as! [String:AnyObject] {
             let places = jsonData["places"] as! [AnyObject]
             placesSectionTitles.removeAllObjects()
@@ -30,8 +33,7 @@ func downloadPlacesFile() {
             for i in (0...places.count-1) {
                 let place = places[i]
                 if let name = place["name"] as? String {
-                  // TJK Convert JSON object to NSDictionary object, and add to placesArray.
-                  // placesArray.append(place)
+                  placesArray.add(place)
                   if (placesBySection.object(forKey: name) == nil) {
                       let placesNamesArray = NSMutableArray()
                       placesBySection.setValue(placesNamesArray, forKey: name)
@@ -56,13 +58,13 @@ func downloadPlacesFile() {
 }
 
 func readPlacesFile() -> Bool {
-    let path = GlobalConstants.documents_directory.appendingPathComponent("places.plist")
+    let places_path = GlobalConstants.documents_directory.appendingPathComponent("places.plist")
     let manager = FileManager.default
-    if (manager.fileExists(atPath: path)) {
+    if (manager.fileExists(atPath: places_path)) {
         placesArray = []
-        placesArray = NSArray(contentsOfFile: path)!
+        placesArray = NSArray(contentsOfFile: places_path)! as! NSMutableArray
     }
-    let result = (placesArray.count > 0)
     print("Read \(placesArray.count) Places from Cache")
+    let result = (placesArray.count > 0)
     return result
 }

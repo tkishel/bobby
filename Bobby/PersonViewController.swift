@@ -112,7 +112,7 @@ class PersonViewController: UIViewController {
                     if (photo_data.count == 0) {
                         photo_data = readDefaultPuppeteerPhotoFile() as Data
                     } else {
-                        writePuppeteerPhotoFile(profile_photo, photo_data: photo_data)
+                        _ = writePuppeteerPhotoFile(profile_photo, photo_data: photo_data)
                     }
                 }
             }

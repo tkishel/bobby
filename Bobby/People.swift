@@ -1,23 +1,25 @@
 import Foundation
 
-// http://stackoverflow.com/questions/29092101/json-string-to-nsdictionary-with-swift
+//var descriptor: NSSortDescriptor = NSSortDescriptor(key: "first_name", ascending: true)
+//var sortedPlacesArray: NSArray = puppeteersArray.sortedArrayUsingDescriptors([descriptor])
 
 func downloadPuppeteersFile() {
     if (!(pingPong)) {
-        print("No pingPong!")
-        // return
+        print("No API!")
+        return
     }
 
     let url = URL(string: GlobalConstants.api_people_url)
     do {
-        //let d_data = try Data(contentsOf: url!)
+        // let d_data = try Data(contentsOf: url!)
+        // TJK For testing before changes to Robby.
         let dd = "{" +
             "\"puppeteeers\":[" +
             "{" +
             "\"first_name\":\"Tom\"," +
             "\"last_name\":\"Kishel\"," +
             "\"job_title\":\"Sr Supt Eng\"," +
-            "\"photo_path\":\"tom.kishel.png\"" +
+            "\"photo_path\":\"tom.kishel.jpg\"" +
             "}," +
             "{" +
             "\"first_name\":\"Manuel\"," +
@@ -36,7 +38,7 @@ func downloadPuppeteersFile() {
             for i in (0...puppeteeers.count-1) {
                 let puppeteer = puppeteeers[i]
                 let first_name = (puppeteer["first_name"] as! String)
-                // puppeteersArray.append(puppeteer) // TJK Convert JSON object to NSDictionary object, and add to placesArray.
+                puppeteersArray.add(puppeteer)
                 let first_character = String(first_name[first_name.startIndex])
                 if (puppeteersBySection.object(forKey: first_character) == nil) {
                     let puppeteerNamesArray = NSMutableArray()
@@ -64,28 +66,35 @@ func downloadPuppeteersFile() {
     }
 }
 
-//var descriptor: NSSortDescriptor = NSSortDescriptor(key: "first_name", ascending: true)
-//var sortedPlacesArray: NSArray = puppeteersArray.sortedArrayUsingDescriptors([descriptor])
-
 func readPuppeteersFile() -> Bool {
-    let path = GlobalConstants.documents_directory.appendingPathComponent("people.plist")
+    let people_path = GlobalConstants.documents_directory.appendingPathComponent("people.plist")
     let manager = FileManager.default
-    if (manager.fileExists(atPath: path)) {
+    if (manager.fileExists(atPath: people_path)) {
         puppeteersArray = []
-        puppeteersArray = NSArray(contentsOfFile: path)!
+        puppeteersArray = NSArray(contentsOfFile: people_path)! as! NSMutableArray
     }
-    let result = (puppeteersArray.count > 0)
     print("Read \(puppeteersArray.count) Puppeteers from Cache")
+    let result = (puppeteersArray.count > 0)
     return result
 }
 
-func downloadPuppeteerPhotos() {
+func createPuppeteerPhotosDirectory() -> Bool {
+    let manager = FileManager.default
+    if (!(manager.fileExists(atPath: GlobalConstants.avatars_directory as String))) {
+        _ = try? manager.createDirectory(atPath: GlobalConstants.avatars_directory as String, withIntermediateDirectories: false, attributes: nil)
+    }
+    return (manager.fileExists(atPath: GlobalConstants.avatars_directory as String))
+}
+
+func downloadPuppeteerPhotos() -> Bool {
+    _ = createPuppeteerPhotosDirectory()
     for item in puppeteersArray {
         let puppeteer = item as! NSDictionary
         let profile_photo = puppeteer["photo_path"] as! String
         downloadPuppeteerPhoto(profile_photo)
     }
-    print("Downloaded Puppeteer Photos")
+    // print("Downloaded Puppeteer Photos")
+    return true
 }
 
 func downloadPuppeteerPhoto(_ profile_photo: String) {
@@ -102,29 +111,29 @@ func downloadPuppeteerPhoto(_ profile_photo: String) {
 
             downloadPuppeteerPhotoFileHeader(profile_photo, completion: { (photo_date) -> () in
                 if (file_date.compare(photo_date) == ComparisonResult.orderedAscending) {
-                    //print("File Older, Downloading \(profile_photo) Puppeteer Photo")
+                    // print("File Older, Downloading Puppeteer Photo \(profile_photo)")
                     photo_data = downloadPuppeteerPhotoFile(profile_photo)
                     if (photo_data.count != 0) {
-                        //print("Writing \(profile_photo) Puppeteer Photo")
-                        writePuppeteerPhotoFile(profile_photo, photo_data: photo_data)
+                        // print("Writing \(profile_photo) Puppeteer Photo")
+                        _ = writePuppeteerPhotoFile(profile_photo, photo_data: photo_data)
                     }
                 } else {
-                    //print("File Newer, Keeping \(profile_photo) Puppeteer Photo")
+                    // print("File Newer, Keeping Puppeteer Photo \(profile_photo) ")
                 }
             })
 
         } else {
-            //print("File Attribute Error, Updating \(profile_photo) Puppeteer Photo")
+            // print("File Attribute Error, Updating Puppeteer Photo \(profile_photo) ")
             photo_data = downloadPuppeteerPhotoFile(profile_photo)
             if (photo_data.count != 0) {
-                writePuppeteerPhotoFile(profile_photo, photo_data: photo_data)
+                _ = writePuppeteerPhotoFile(profile_photo, photo_data: photo_data)
             }
         }
     } else {
-        //print("File Missing, Downloading \(profile_photo) Puppeteer Photo")
+        // print("File Missing, Downloading Puppeteer Photo \(profile_photo) ")
         photo_data = downloadPuppeteerPhotoFile(profile_photo)
         if (photo_data.count != 0) {
-            writePuppeteerPhotoFile(profile_photo, photo_data: photo_data)
+            _ = writePuppeteerPhotoFile(profile_photo, photo_data: photo_data)
         }
     }
 }
@@ -175,9 +184,9 @@ func downloadPuppeteerPhotoFile(_ profile_photo: String) -> Data {
         return empty_photo_data
     }
     let url = URL(string: "\(GlobalConstants.api_avatars_url)\(profile_photo)")
-    print("Looking for \(url) Puppeteer Photo")
+    print("Looking for Puppeteer Photo \(url)")
     if let photo_data = try? Data(contentsOf: url!) {
-        print("Read \(profile_photo) Puppeteer Photo from URL")
+        print("Read Puppeteer Photo from URL \(profile_photo)")
         return photo_data
     }
     return empty_photo_data
@@ -186,7 +195,7 @@ func downloadPuppeteerPhotoFile(_ profile_photo: String) -> Data {
 func readDefaultPuppeteerPhotoFile() -> Data {
     var photo_data = Data()
     photo_data = try! Data(contentsOf: URL(fileURLWithPath: GlobalConstants.default_avatar!))
-    //print("Read Default Puppeteer Photo from File")
+    // print("Read Default Puppeteer Photo from File")
     return photo_data
 }
 
@@ -199,7 +208,7 @@ func readPuppeteerPhotoFile(_ profile_photo: String) -> Data {
     let manager = FileManager.default
     if (manager.fileExists(atPath: path)) {
         photo_data = try! Data(contentsOf: URL(fileURLWithPath: path))
-        //print("Read \(profile_photo) Puppeteer Photo from Cache")
+        // print("Read Puppeteer Photo from Cache \(profile_photo) ")
     }
     return photo_data
 }
@@ -216,21 +225,22 @@ func writePuppeteerPhotoFile(_ profile_photo: String, photo_data: Data) -> Bool 
     let path = GlobalConstants.avatars_directory.appendingPathComponent(profile_photo)
     let result = (try? photo_data.write(to: URL(fileURLWithPath: path), options: [.atomic])) != nil
     if (result) {
-        print("Wrote \(profile_photo) Puppeteer Photo to Cache")
+        print("Wrote Puppeteer Photo to Cache \(profile_photo) ")
     }
     return result
 }
 
-func deleteInactivePuppeteerPhotos() {
+func deleteInactivePuppeteerPhotos() -> Bool {
     let manager = FileManager.default
     let file_list = try? manager.contentsOfDirectory(atPath: GlobalConstants.avatars_directory as String)
     for file_name in file_list! {
         let file_path = file_name as NSString
-        //print("Checking \(file_path) in Cache")
+        // print("Checking in Cache \(file_path) ")
         if (puppeteersPhotoArray.object(forKey: file_path) == nil) {
-            //print("Deleting \(file_path) from Cache")
+            // print("Deleting from Cache \(file_path) ")
             _ = try? manager.removeItem(atPath: file_path as String)
         }
     }
-    print("Deleted Inactive Puppeteer Photos from Cache")
+    // print("Deleted Inactive Puppeteer Photos from Cache")
+    return true
 }
