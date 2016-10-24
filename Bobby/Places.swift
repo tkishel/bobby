@@ -12,10 +12,12 @@ func downloadPlacesFile() {
         let dd = "{" +
             "\"places\":[" +
             "{" +
+            "\"location\":\"PDX5-05-S-R2D2-VC\"," +
             "\"name\":\"R2D2\"" +
             "}," +
             "{" +
-            "\"name\":\"3CPO\"" +
+            "\"location\":\"PDX5-05-S-C3PO-VC\"," +
+            "\"name\":\"C3PO\"" +
             "}" +
             "]" +
         "}"
@@ -27,14 +29,16 @@ func downloadPlacesFile() {
             placesBySection.removeAllObjects()
             for i in (0...places.count-1) {
                 let place = places[i]
-                let name = (place["name"] as! String)
-                // placesArray(place) // TJK Convert JSON object to NSDictionary object, and add to placesArray.
-                if (placesBySection.object(forKey: name) == nil) {
-                    let placesNamesArray = NSMutableArray()
-                    placesBySection.setValue(placesNamesArray, forKey: name)
-                    placesSectionTitles.add(name)
+                if let name = place["name"] as? String {
+                  // TJK Convert JSON object to NSDictionary object, and add to placesArray.
+                  // placesArray.append(place)
+                  if (placesBySection.object(forKey: name) == nil) {
+                      let placesNamesArray = NSMutableArray()
+                      placesBySection.setValue(placesNamesArray, forKey: name)
+                      placesSectionTitles.add(name)
+                  }
+                  (placesBySection.object(forKey: name) as! NSMutableArray).add(place)
                 }
-                (placesBySection.object(forKey: name) as! NSMutableArray).add(place)
             }
             let path = GlobalConstants.documents_directory.appendingPathComponent("places.plist")
             let result = placesArray.write(toFile: path, atomically: true)

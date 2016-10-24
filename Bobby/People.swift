@@ -7,7 +7,7 @@ func downloadPuppeteersFile() {
         print("No pingPong!")
         // return
     }
-    
+
     let url = URL(string: GlobalConstants.api_people_url)
     do {
         //let d_data = try Data(contentsOf: url!)
@@ -15,11 +15,15 @@ func downloadPuppeteersFile() {
             "\"puppeteeers\":[" +
             "{" +
             "\"first_name\":\"Tom\"," +
+            "\"last_name\":\"Kishel\"," +
+            "\"job_title\":\"Sr Supt Eng\"," +
             "\"photo_path\":\"tom.kishel.png\"" +
             "}," +
             "{" +
-            "\"first_name\":\"Kael\"," +
-            "\"photo_path\":\"\"" +
+            "\"first_name\":\"Manuel\"," +
+            "\"last_name\":\"Batule\"," +
+            "\"job_title\":\"Sr Bus Sys Dev\"," +
+            "\"photo_path\":\"manny.jpg\"" +
             "}" +
             "]" +
         "}"
@@ -95,7 +99,7 @@ func downloadPuppeteerPhoto(_ profile_photo: String) {
         if let file_attributes : NSDictionary = try! manager.attributesOfItem(atPath: path) as NSDictionary? {
             var file_date = Date()
             file_date = file_attributes.fileCreationDate()!
-            
+
             downloadPuppeteerPhotoFileHeader(profile_photo, completion: { (photo_date) -> () in
                 if (file_date.compare(photo_date) == ComparisonResult.orderedAscending) {
                     //print("File Older, Downloading \(profile_photo) Puppeteer Photo")
@@ -108,7 +112,7 @@ func downloadPuppeteerPhoto(_ profile_photo: String) {
                     //print("File Newer, Keeping \(profile_photo) Puppeteer Photo")
                 }
             })
-            
+
         } else {
             //print("File Attribute Error, Updating \(profile_photo) Puppeteer Photo")
             photo_data = downloadPuppeteerPhotoFile(profile_photo)
