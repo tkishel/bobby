@@ -29,7 +29,7 @@ var placesBySection = NSMutableDictionary()
 func pingRobby() {
     pingPong = false;
     let url = URL(string: GlobalConstants.api_ping_pong)
-    let request = NSMutableURLRequest(url: url!, cachePolicy: NSURLRequest.CachePolicy.reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 3)
+    let request = NSMutableURLRequest(url: url!, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 3)
     var response: URLResponse?
     _ = try? NSURLConnection.sendSynchronousRequest(request as URLRequest, returning: &response)
     if let http_response = response as? HTTPURLResponse {

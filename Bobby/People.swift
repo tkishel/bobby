@@ -1,8 +1,5 @@
 import Foundation
 
-//var descriptor: NSSortDescriptor = NSSortDescriptor(key: "first_name", ascending: true)
-//var sortedPlacesArray: NSArray = puppeteersArray.sortedArrayUsingDescriptors([descriptor])
-
 func downloadPuppeteersFile() {
     if (!(pingPong)) {
         print("No API!")
@@ -31,7 +28,15 @@ func downloadPuppeteersFile() {
         "}"
         let data = dd.data(using: .utf8)!
         if let jsonData = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as! [String:AnyObject] {
-            let puppeteeers = jsonData["puppeteeers"] as! [AnyObject]
+            var puppeteeers = jsonData["puppeteeers"] as! [AnyObject]
+            puppeteeers.sort { ($0["first_name"] as? String)! < ($1["first_name"] as? String)! }
+            // TJK Simplify
+            //let sorted = puppeteeers.sorted { left, right -> Bool in
+            //    guard let rightKey = right["first_name"] as? String else { return true }
+            //    guard let leftKey = left["first_name"] as? String else { return false }
+            //    return leftKey < rightKey
+            //}
+            //puppeteeers = sorted
             puppeteersSectionTitles.removeAllObjects()
             puppeteersBySection.removeAllObjects()
             puppeteersPhotoArray.removeAllObjects()

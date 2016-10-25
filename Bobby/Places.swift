@@ -1,7 +1,7 @@
 import Foundation
 
-//var descriptor: NSSortDescriptor = NSSortDescriptor(key: "first_name", ascending: true)
-//var sortedPlacesArray: NSArray = puppeteersArray.sortedArrayUsingDescriptors([descriptor])
+//var descriptor: NSSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
+//var sortedArray: NSMutableArray = puppeteersArray.sortedArrayUsingDescriptors([descriptor])
 
 func downloadPlacesFile() {
     if (!(pingPong)) {
@@ -35,7 +35,15 @@ func downloadPlacesFile() {
         "}"
         let data = dd.data(using: .utf8)!
         if let jsonData = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as! [String:AnyObject] {
-            let places = jsonData["places"] as! [AnyObject]
+            var places = jsonData["places"] as! [AnyObject]
+            places.sort { ($0["name"] as? String)! < ($1["name"] as? String)! }
+            // TJK Simplify
+            //let sorted = places.sorted { left, right -> Bool in
+            //    guard let rightKey = right["name"] as? String else { return true }
+            //    guard let leftKey = left["name"] as? String else { return false }
+            //    return leftKey < rightKey
+            //}
+            //places = sorted
             placesSectionTitles.removeAllObjects()
             placesBySection.removeAllObjects()
             for i in (0...places.count-1) {
@@ -51,6 +59,7 @@ func downloadPlacesFile() {
                 }
             }
             let path = GlobalConstants.documents_directory.appendingPathComponent("places.plist")
+
             let result = placesArray.write(toFile: path, atomically: true)
             if (result) {
                 print("Wrote \(placesArray.count) Places to Cache")
