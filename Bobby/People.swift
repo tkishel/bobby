@@ -16,13 +16,19 @@ func downloadPuppeteersFile() {
             "\"first_name\":\"Tom\"," +
             "\"last_name\":\"Kishel\"," +
             "\"job_title\":\"Sr Supt Eng\"," +
-            "\"photo_path\":\"tom.kishel.jpg\"" +
+            "\"photo_path\":\"tom.kishel.jpg\"," +
+            "\"floor\":5," +
+            "\"location_x\":256," +
+            "\"location_y\":512" +
             "}," +
             "{" +
             "\"first_name\":\"Manuel\"," +
             "\"last_name\":\"Batule\"," +
             "\"job_title\":\"Sr Bus Sys Dev\"," +
-            "\"photo_path\":\"manny.jpg\"" +
+            "\"photo_path\":\"manny.jpg\"," +
+            "\"floor\":6," +
+            "\"location_x\":256," +
+            "\"location_y\":512" +
             "}" +
             "]" +
         "}"
