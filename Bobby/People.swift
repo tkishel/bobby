@@ -10,7 +10,7 @@ func downloadPuppeteersFile() {
     do {
         // let d_data = try Data(contentsOf: url!)
         // TJK For testing before changes to Robby.
-        let dd = "{" +
+        let test_data = "{" +
             "\"puppeteeers\":[" +
             "{" +
             "\"first_name\":\"Tom\"," +
@@ -40,10 +40,10 @@ func downloadPuppeteersFile() {
             "}" +
             "]" +
         "}"
-        let pj_file = Bundle.main.path(forResource: "puppet", ofType: "json")
-        let pj = try String(contentsOfFile: pj_file!)
+        let test_file = Bundle.main.path(forResource: "puppet", ofType: "json")
+        let test_file_data = try String(contentsOfFile: test_file!)
         
-        let data = dd.data(using: .utf8)!
+        let data = test_file_data.data(using: .utf8)!
         if let jsonData = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as! [String:AnyObject] {
             var puppeteeers = jsonData["puppeteeers"] as! [AnyObject]
             puppeteeers.sort { ($0["first_name"] as? String)! < ($1["first_name"] as? String)! }
