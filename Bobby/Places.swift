@@ -17,20 +17,22 @@ func downloadPlacesFile() {
             "\"places\":[" +
             "{" +
             "\"location\":\"PDX5-05-S-R2D2-VC\"," +
-            "\"city\":\"Portland\"," +
+            "\"office\":\"Portland\"," +
             "\"floor\":5," +
             "\"location_x\":256," +
-            "\"location_y\":512" +
+            "\"location_y\":512," +
+            "\"capacity\":5," +
             "\"direction\":\"S\"," +
             "\"equipment\":\"VC\"," +
             "\"name\":\"R2D2\"" +
             "}," +
             "{" +
             "\"location\":\"PDX5-05-S-C3PO-VC\"," +
-            "\"city\":\"Portland\"," +
+            "\"office\":\"Portland\"," +
             "\"floor\":5," +
             "\"location_x\":256," +
-            "\"location_y\":512" +
+            "\"location_y\":512," +
+            "\"capacity\":5," +
             "\"direction\":\"S\"," +
             "\"equipment\":\"VC\"," +
             "\"name\":\"C3PO\"" +

@@ -11,12 +11,6 @@ class PlaceViewController: UIViewController {
     @IBOutlet weak var floorLabel: UILabel!
 
     @IBOutlet weak var callDesk: UIButton!
-    //@IBAction func callDeskAction(_ sender: AnyObject) {
-    //    if let desk_phone = place["phone"] as? NSString {
-    //        let desk_phone_url = desk_phone.replacingOccurrences(of: ".", with: "")
-    //        UIApplication.shared.openURL(URL(string:"tel:\(desk_phone_url)")!)
-    //    }
-    //}
 
     @IBOutlet weak var showFloor: UIButton!
     @IBAction func showFloorAction(_ sender: UIButton) {
@@ -51,48 +45,13 @@ class PlaceViewController: UIViewController {
 
     func showPlace() {
         if ((self.place) != nil) {
-
-            // TJK rename client to location
-            if let client = place["client"] as? String {
-                self.clientLabel.text = client
-            } else {
-                self.clientLabel.text = ""
-            }
-
-            if let name = place["name"] as? String {
-                self.nameLabel.text = name
-            } else {
-                self.nameLabel.text = ""
-            }
-
-            // TJK rename project to capacity
-            if let project = place["project"] as? String {
-                self.projectLabel.text = project
-            } else {
-                self.projectLabel.text = ""
-            }
-
-            // TJK rename phone to direction
-            if let phone = place["phone"] as? String {
-                self.deskPhoneLabel.text = phone
-            } else {
-                self.deskPhoneLabel.text = ""
-            }
-
-            // TJK rename ext to equipment
-            if let ext = place["extension"] as? String {
-                self.extLabel.text = ext
-            } else {
-                self.extLabel.text = ""
-            }
-
-            // TJK expand to location,floor,x,y
-
             if let floor = place["floor"] as? Int {
                 let floorName = floorNumberToName(floor)
                 self.floorLabel.text = floorName
                 self.showFloor.isHidden = (floorName == "Not in PDX")
-                let floorImage = UIImage(named: "floor-\(floor).png")!
+                
+                let floorFileName = floorNumberToFileName(floor)
+                let floorImage = UIImage(named: floorFileName)!
                 self.photoImageView.image = floorImage
                 self.photoImageView.layer.cornerRadius = (self.photoImageView.frame.size.width / 2)
                 self.photoImageView.clipsToBounds = true
@@ -114,6 +73,40 @@ class PlaceViewController: UIViewController {
                 }
             } else {
                 self.floorLabel.text = ""
+            }
+            
+            // TJK rename label to location
+            if let location = place["location"] as? String {
+                self.clientLabel.text = location
+            } else {
+                self.clientLabel.text = ""
+            }
+
+            if let name = place["name"] as? String {
+                self.nameLabel.text = name
+            } else {
+                self.nameLabel.text = ""
+            }
+
+            // TJK rename label to capacity
+            if let capacity = place["capacity"] as? Int {
+                self.projectLabel.text = "\(capacity)"
+            } else {
+                self.projectLabel.text = ""
+            }
+
+            // TJK rename label to direction
+            if let direction = place["direction"] as? String {
+                self.deskPhoneLabel.text = direction
+            } else {
+                self.deskPhoneLabel.text = ""
+            }
+
+            // TJK rename label to equipment
+            if let equipment = place["equipment"] as? String {
+                self.extLabel.text = equipment
+            } else {
+                self.extLabel.text = ""
             }
         }
     }

@@ -15,20 +15,28 @@ func downloadPuppeteersFile() {
             "{" +
             "\"first_name\":\"Tom\"," +
             "\"last_name\":\"Kishel\"," +
+            "\"ou\":\"Customer Support\"," +
             "\"job_title\":\"Sr Supt Eng\"," +
+            "\"personaltitle\":\"Fort Builder\"," +
             "\"photo_path\":\"tom.kishel.jpg\"," +
+            "\"office\":\"Portland\"," +
             "\"floor\":5," +
             "\"location_x\":256," +
-            "\"location_y\":512" +
+            "\"location_y\":512," +
+            "\"mobile\":\"503.737.4224\"" +
             "}," +
             "{" +
             "\"first_name\":\"Manuel\"," +
             "\"last_name\":\"Batule\"," +
+            "\"ou\":\"Business Optimization\"," +
             "\"job_title\":\"Sr Bus Sys Dev\"," +
+            "\"personaltitle\":\"\"," +
             "\"photo_path\":\"manny.jpg\"," +
+            "\"office\":\"Portland\"," +
             "\"floor\":6," +
             "\"location_x\":256," +
-            "\"location_y\":512" +
+            "\"location_y\":512," +
+            "\"mobile\":\"\"" +
             "}" +
             "]" +
         "}"

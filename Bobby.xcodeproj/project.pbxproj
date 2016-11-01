@@ -29,8 +29,8 @@
 		0493FE2E1A93AD9B00A979D7 /* Places.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0493FE2D1A93AD9B00A979D7 /* Places.swift */; };
 		049993321A96C4CA006D647D /* tools@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 049993311A96C4CA006D647D /* tools@2x.png */; };
 		049993341A96C558006D647D /* ThingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049993331A96C558006D647D /* ThingsViewController.swift */; };
-		04FA1BE31DBA8F880030C416 /* pdx_floor_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 04FA1BE11DBA8F880030C416 /* pdx_floor_5.png */; };
-		04FA1BE41DBA8F880030C416 /* pdx_floor_6.png in Resources */ = {isa = PBXBuildFile; fileRef = 04FA1BE21DBA8F880030C416 /* pdx_floor_6.png */; };
+		04FA1BE31DBA8F880030C416 /* portland_floor_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 04FA1BE11DBA8F880030C416 /* portland_floor_5.png */; };
+		04FA1BE41DBA8F880030C416 /* portland_floor_6.png in Resources */ = {isa = PBXBuildFile; fileRef = 04FA1BE21DBA8F880030C416 /* portland_floor_6.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,8 +61,8 @@
 		0493FE2D1A93AD9B00A979D7 /* Places.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Places.swift; sourceTree = "<group>"; };
 		049993311A96C4CA006D647D /* tools@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tools@2x.png"; sourceTree = "<group>"; };
 		049993331A96C558006D647D /* ThingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThingsViewController.swift; sourceTree = "<group>"; };
-		04FA1BE11DBA8F880030C416 /* pdx_floor_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pdx_floor_5.png; sourceTree = "<group>"; };
-		04FA1BE21DBA8F880030C416 /* pdx_floor_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pdx_floor_6.png; sourceTree = "<group>"; };
+		04FA1BE11DBA8F880030C416 /* portland_floor_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = portland_floor_5.png; sourceTree = "<group>"; };
+		04FA1BE21DBA8F880030C416 /* portland_floor_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = portland_floor_6.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,8 +122,8 @@
 				0435579B1A8E744C00A8CAED /* rooms@2x.png */,
 				049993311A96C4CA006D647D /* tools@2x.png */,
 				04849F941A9294D10064A890 /* dot.png */,
-				04FA1BE11DBA8F880030C416 /* pdx_floor_5.png */,
-				04FA1BE21DBA8F880030C416 /* pdx_floor_6.png */,
+				04FA1BE11DBA8F880030C416 /* portland_floor_5.png */,
+				04FA1BE21DBA8F880030C416 /* portland_floor_6.png */,
 				04849F881A9254CD0064A890 /* tel.png */,
 				04849F861A9254C80064A890 /* sms.png */,
 				0435579C1A8E744C00A8CAED /* rooms.png */,
@@ -215,8 +215,8 @@
 				04849F951A9294D10064A890 /* dot.png in Resources */,
 				047094C71A85A122006FACC6 /* Main.storyboard in Resources */,
 				0435579D1A8E744C00A8CAED /* rooms@2x.png in Resources */,
-				04FA1BE41DBA8F880030C416 /* pdx_floor_6.png in Resources */,
-				04FA1BE31DBA8F880030C416 /* pdx_floor_5.png in Resources */,
+				04FA1BE41DBA8F880030C416 /* portland_floor_6.png in Resources */,
+				04FA1BE31DBA8F880030C416 /* portland_floor_5.png in Resources */,
 				043557981A8E73A300A8CAED /* people@2x.png in Resources */,
 				04849F891A9254CD0064A890 /* tel.png in Resources */,
 				0435579A1A8E740500A8CAED /* people.png in Resources */,

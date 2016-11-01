@@ -8,8 +8,6 @@ class PersonViewController: UIViewController {
 
     @IBOutlet weak var departmentLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var deskPhoneLabel: UILabel!
-    @IBOutlet weak var extLabel: UILabel!
     @IBOutlet weak var mobilePhoneLabel: UILabel!
     @IBOutlet weak var floorLabel: UILabel!
 
@@ -69,39 +67,8 @@ class PersonViewController: UIViewController {
 
     func showPuppeteer() {
         if ((self.puppeteer) != nil) {
-            if let first_name = puppeteer["first_name"] as? String {
-                self.firstNameLabel.text = first_name
-                self.lastNameLabel.text = ""
-            }
-
-            if let last_name = puppeteer["last_name"] as? String {
-                self.lastNameLabel.text = last_name
-            } else {
-                self.lastNameLabel.text = ""
-            }
-
-            if let job_title = puppeteer["job_title"] as? String {
-                self.titleLabel.text = job_title
-            } else {
-                self.titleLabel.text = ""
-            }
-
-            // TJK rename department to ou
-            if let department = puppeteer["department"] as? String {
-                self.departmentLabel.text = department
-            } else {
-                self.departmentLabel.text = ""
-            }
-
-            // TJK rename description to personaltitle
-            if let description = puppeteer["description"] as? String {
-                self.descriptionLabel.text = description
-            } else {
-                self.descriptionLabel.text = ""
-            }
-
             var photo_data = Data()
-
+            
             let profile_photo = puppeteer["photo_path"] as! String
             if (profile_photo.isEmpty) {
                 photo_data = readDefaultPuppeteerPhotoFile() as Data
@@ -122,30 +89,44 @@ class PersonViewController: UIViewController {
                 self.photoImageView.image = UIImage(data: photo_data)
             }
 
-            // TJK toss
-            if let desk_phone = puppeteer["desk_phone"] as? String {
-                self.deskPhoneLabel.text = desk_phone
-                self.callDesk.isHidden = desk_phone.isEmpty
-            } else {
-                self.deskPhoneLabel.text = ""
+            if let first_name = puppeteer["first_name"] as? String {
+                self.firstNameLabel.text = first_name
+                self.lastNameLabel.text = ""
             }
 
-            // TJK unused
-            if let ext = puppeteer["extension"] as? String {
-                self.extLabel.text = ext
+            if let last_name = puppeteer["last_name"] as? String {
+                self.lastNameLabel.text = last_name
             } else {
-                self.extLabel.text = ""
+                self.lastNameLabel.text = ""
             }
 
-            if let cell_phone = puppeteer["cell_phone"] as? String {
-                self.mobilePhoneLabel.text = cell_phone
-                self.callMobile.isHidden = cell_phone.isEmpty
-                self.textMobile.isHidden = cell_phone.isEmpty
+            // TJK rename label to ou
+            if let ou = puppeteer["ou"] as? String {
+                self.departmentLabel.text = ou
+            } else {
+                self.departmentLabel.text = ""
+            }
+
+            if let job_title = puppeteer["job_title"] as? String {
+                self.titleLabel.text = job_title
+            } else {
+                self.titleLabel.text = ""
+            }
+            
+            // TJK rename label to personaltitle
+            if let personaltitle = puppeteer["personaltitle"] as? String {
+                self.descriptionLabel.text = personaltitle
+            } else {
+                self.descriptionLabel.text = ""
+            }
+
+            if let mobile = puppeteer["mobile"] as? String {
+                self.mobilePhoneLabel.text = mobile
+                self.callMobile.isHidden = mobile.isEmpty
+                self.textMobile.isHidden = mobile.isEmpty
             } else {
                 self.mobilePhoneLabel.text = ""
             }
-
-            // TJK expand to location,floor,x,y
             
             if let floor = puppeteer["floor"] as? Int {
                 let floorName = floorNumberToName(floor)

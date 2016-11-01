@@ -88,8 +88,11 @@ class FloorViewController: UIViewController, UIScrollViewDelegate {
     func showFloor() {
         print("showFloor")
         if ((self.floor) != nil) {
-            self.titleLabel.title = "Floor \(self.floor!)"
-            let floorImage = UIImage(named: "pdx_floor_\(self.floor!).png")!
+            let floorName = floorNumberToName(floor)
+            self.titleLabel.title = floorName
+          
+            let floorFileName = floorNumberToFileName(floor)
+            let floorImage = UIImage(named: floorFileName)!            
             floorImageView = UIImageView(image: floorImage)
             self.scrollView.addSubview(floorImageView)
             self.scrollView.contentSize = floorImageView.frame.size

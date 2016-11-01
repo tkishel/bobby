@@ -72,11 +72,24 @@ func floorNumberToName (_ number: Int) -> String {
     var name = String()
     switch number {
         case 5:
-            name = "Fifth Floor"
+            name = "Portland Fifth Floor"
         case 6:
-            name = "Sixth Floor"
+            name = "Portland Sixth Floor"
         default:
             name = "Not in PDX"
+    }
+    return name
+}
+
+func floorNumberToFileName (_ number: Int) -> String {
+    var name = String()
+    switch number {
+    case 5:
+        name = "portland_floor_5.png"
+    case 6:
+        name = "portland_floor_6.png"
+    default:
+        name = "dot.png"
     }
     return name
 }
