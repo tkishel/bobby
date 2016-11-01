@@ -7,7 +7,7 @@ host = "ldap.puppetlabs.com"
 port = 636
 base = "dc=puppetlabs,dc=com"
 username = "tom.kishel"
-password = "94=WRZCzXhU*voZ"
+password = ""
 
 puppeteers = []
 
