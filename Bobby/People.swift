@@ -5,7 +5,7 @@ func downloadPuppeteersFile() {
         print("No API!")
         return
     }
-
+    
     let url = URL(string: GlobalConstants.api_people_url)
     do {
         // let d_data = try Data(contentsOf: url!)
@@ -40,6 +40,9 @@ func downloadPuppeteersFile() {
             "}" +
             "]" +
         "}"
+        let pj_file = Bundle.main.path(forResource: "puppet", ofType: "json")
+        let pj = try String(contentsOfFile: pj_file!)
+        
         let data = dd.data(using: .utf8)!
         if let jsonData = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as! [String:AnyObject] {
             var puppeteeers = jsonData["puppeteeers"] as! [AnyObject]
