@@ -40,4 +40,4 @@ ldap.search(:base => "dc=puppetlabs,dc=com", :attributes => attrs, :filter => fi
     puppeteers.push(puppeteer)
 end
 
-puts '{"puppeteeers":' + puppeteers.to_json + '}'
+puts puppeteers.to_json
