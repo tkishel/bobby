@@ -6,11 +6,11 @@ struct GlobalConstants {
     static let avatars_directory = documents_directory.appendingPathComponent("avatars") as NSString
     static let api_ping_pong = "https://robby.puppetlabs.net/" as String
     static let api_people_url = "https://robby.puppetlabs.net/people" as String
-    static let api_places_url = "https://robby.puppetlabs.net/resources" as String
+    static let api_places_url = "https://robby.puppetlabs.net/places" as String
     static let api_avatars_url = "https://robby-images.s3.amazonaws.com/" as String
     static let default_avatar = Bundle.main.path(forResource: "generic", ofType: "png")
-    static let pdx_floor5 = Bundle.main.path(forResource: "pdx_floor5", ofType: "png")
-    static let pdx_floor6 = Bundle.main.path(forResource: "pdx_floor6", ofType: "png")
+    static let pdx_floor5 = Bundle.main.path(forResource: "portland_floor_5", ofType: "png")
+    static let pdx_floor6 = Bundle.main.path(forResource: "portland_floor_6", ofType: "png")
 }
 
 var pingPong = false
@@ -46,6 +46,7 @@ func launchPuppetApplication() {
     pingRobby()
     
     // TJK For testing before changes to Robby.
+    
     pingPong = true
     
     print("Cache: \(GlobalConstants.documents_directory)")
@@ -60,10 +61,9 @@ func launchPuppetApplication() {
         downloadPlacesFile()
     }
 
-    _ = downloadPuppeteerPhotos()
-
     DispatchQueue.global(qos: .background).async(execute: {
         print("Dispatch Async: Processing Photos")
+        _ = downloadPuppeteerPhotos()
         _ = deleteInactivePuppeteerPhotos()
     })
 }

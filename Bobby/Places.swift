@@ -1,93 +1,63 @@
 import Foundation
 
-//var descriptor: NSSortDescriptor = NSSortDescriptor(key: "name", ascending: true)
-//var sortedArray: NSMutableArray = puppeteersArray.sortedArrayUsingDescriptors([descriptor])
-
 func downloadPlacesFile() {
     if (!(pingPong)) {
         print("No API!")
         return
     }
-
-    let url = URL(string: GlobalConstants.api_places_url)
+    let places_url = URL(string: GlobalConstants.api_places_url)
     do {
-        // let d_data = try Data(contentsOf: url!)
+        // let d_data = try Data(contentsOf: places_url!)
         // TJK For testing before changes to Robby.
-        let dd = "{" +
-            "\"places\":[" +
-            "{" +
-            "\"location\":\"PDX5-05-S-R2D2-VC\"," +
-            "\"office\":\"Portland\"," +
-            "\"floor\":5," +
-            "\"location_x\":256," +
-            "\"location_y\":512," +
-            "\"capacity\":5," +
-            "\"direction\":\"S\"," +
-            "\"equipment\":\"VC\"," +
-            "\"name\":\"R2D2\"" +
-            "}," +
-            "{" +
-            "\"location\":\"PDX5-05-S-C3PO-VC\"," +
-            "\"office\":\"Portland\"," +
-            "\"floor\":5," +
-            "\"location_x\":256," +
-            "\"location_y\":512," +
-            "\"capacity\":5," +
-            "\"direction\":\"S\"," +
-            "\"equipment\":\"VC\"," +
-            "\"name\":\"C3PO\"" +
-            "}" +
-            "]" +
-        "}"
-        let data = dd.data(using: .utf8)!
-        if let jsonData = try? JSONSerialization.jsonObject(with: data, options: [.allowFragments]) as! [String:AnyObject] {
-            var places = jsonData["places"] as! [AnyObject]
-            places.sort { ($0["name"] as? String)! < ($1["name"] as? String)! }
-            // TJK Simplify
-            //let sorted = places.sorted { left, right -> Bool in
-            //    guard let rightKey = right["name"] as? String else { return true }
-            //    guard let leftKey = left["name"] as? String else { return false }
-            //    return leftKey < rightKey
-            //}
-            //places = sorted
-            placesSectionTitles.removeAllObjects()
-            placesBySection.removeAllObjects()
-            for i in (0...places.count-1) {
-                let place = places[i]
-                if let name = place["name"] as? String {
-                  placesArray.add(place)
-                  if (placesBySection.object(forKey: name) == nil) {
-                      let placesNamesArray = NSMutableArray()
-                      placesBySection.setValue(placesNamesArray, forKey: name)
-                      placesSectionTitles.add(name)
-                  }
-                  (placesBySection.object(forKey: name) as! NSMutableArray).add(place)
-                }
+        let test_file = Bundle.main.path(forResource: "puppet-places", ofType: "json")
+        let json_string = try String(contentsOfFile: test_file!)
+        // TJK
+        let json_data = json_string.data(using: .utf8)!
+        do {
+            _ = try JSONSerialization.jsonObject(with: json_data, options: [.allowFragments]) as! [String:AnyObject]
+            let places_path = GlobalConstants.documents_directory.appendingPathComponent("places.json")
+            do {
+                try json_string.write(toFile: places_path, atomically: true, encoding: .utf8)
+                print("Wrote Places to Cache")
+            } catch let error as NSError {
+                print("Error writing Places to Cache, Error: " + error.localizedDescription)
             }
-            let path = GlobalConstants.documents_directory.appendingPathComponent("places.plist")
-
-            let result = placesArray.write(toFile: path, atomically: true)
-            if (result) {
-                print("Wrote \(placesArray.count) Places to Cache")
-            } else {
-                print("Error writing \(placesArray.count) Places to Cache")
-            }
-            print("Processed \(placesArray.count) Places")
+        } catch let error as NSError {
+            print("Error parsing Places, Error: " + error.localizedDescription)
         }
-    }
-    catch {
-        print("Error downloading Places from \(GlobalConstants.api_places_url)")
+    } catch let error as NSError {
+        print("Error downloading Places, Error:" + error.localizedDescription)
     }
 }
 
 func readPlacesFile() -> Bool {
-    let places_path = GlobalConstants.documents_directory.appendingPathComponent("places.plist")
-    let manager = FileManager.default
-    if (manager.fileExists(atPath: places_path)) {
-        placesArray = []
-        placesArray = NSArray(contentsOfFile: places_path)! as! NSMutableArray
+    let places_path = GlobalConstants.documents_directory.appendingPathComponent("places.json")
+    placesArray = []
+    do {
+        let json_string = try String(contentsOfFile: places_path)
+        let json_data = json_string.data(using: .utf8)!
+        let json_object = try JSONSerialization.jsonObject(with: json_data, options: [.allowFragments]) as! [String:AnyObject]
+        var places = json_object["places"] as! [AnyObject]
+        places.sort { ($0["name"] as? String)! < ($1["name"] as? String)! }
+        placesSectionTitles.removeAllObjects()
+        placesBySection.removeAllObjects()
+        for i in (0...places.count-1) {
+            let place = places[i]
+            placesArray.add(place)
+            let name = (place["name"] as! String)
+            let first_character = String(name[name.startIndex])
+            if (placesBySection.object(forKey: first_character) == nil) {
+                let placeNamesArray = NSMutableArray()
+                placesBySection.setValue(placeNamesArray, forKey: first_character)
+                placesSectionTitles.add(first_character)
+            }
+            (placesBySection.object(forKey: first_character) as! NSMutableArray).add(place)
+        }
+        print("Read \(placesArray.count) Places from Cache")
+    } catch let error as NSError {
+        print("Error reading Places from Cache, Error:" + error.localizedDescription)
     }
-    print("Read \(placesArray.count) Places from Cache")
+    
     let result = (placesArray.count > 0)
     return result
 }

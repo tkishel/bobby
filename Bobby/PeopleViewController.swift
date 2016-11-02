@@ -75,11 +75,10 @@ class PeopleViewController: UITableViewController {
         let last_name = puppeteer["last_name"] as? String
         cell.textLabel?.text = first_name! + " " + last_name!
 
-        let job_title = puppeteer["job_title"] as! String
-        if (job_title.isEmpty) {
-            cell.detailTextLabel?.text = ""
-        } else {
+        if let job_title = puppeteer["job_title"] as? String {
             cell.detailTextLabel?.text = job_title
+        } else {
+            cell.detailTextLabel?.text = ""
         }
 
         var photo_data = Data()
@@ -90,7 +89,8 @@ class PeopleViewController: UITableViewController {
         } else {
             photo_data = readPuppeteerPhotoFile(profile_photo)
             if (photo_data.count == 0) {
-                photo_data = downloadPuppeteerPhotoFile(profile_photo)
+                // TJK ??? This appears to always execute
+                // photo_data = downloadPuppeteerPhotoFile(profile_photo)
                 if (photo_data.count == 0) {
                     photo_data = readDefaultPuppeteerPhotoFile() as Data
                 } else {
