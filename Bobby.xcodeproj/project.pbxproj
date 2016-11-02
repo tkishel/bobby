@@ -25,6 +25,8 @@
 		04849F8B1A9255C50064A890 /* PlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04849F8A1A9255C50064A890 /* PlaceViewController.swift */; };
 		04849F8D1A92748F0064A890 /* FloorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04849F8C1A92748F0064A890 /* FloorViewController.swift */; };
 		04849F951A9294D10064A890 /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = 04849F941A9294D10064A890 /* dot.png */; };
+		0486065B1DCA5271002CB951 /* puppet-things.json in Resources */ = {isa = PBXBuildFile; fileRef = 0486065A1DCA5271002CB951 /* puppet-things.json */; };
+		0486065D1DCA527C002CB951 /* Things.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0486065C1DCA527C002CB951 /* Things.swift */; };
 		0493FE2C1A93AD8C00A979D7 /* People.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0493FE2B1A93AD8C00A979D7 /* People.swift */; };
 		0493FE2E1A93AD9B00A979D7 /* Places.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0493FE2D1A93AD9B00A979D7 /* Places.swift */; };
 		049609411DC9BB420094B631 /* puppet-places.json in Resources */ = {isa = PBXBuildFile; fileRef = 049609401DC9BB420094B631 /* puppet-places.json */; };
@@ -59,6 +61,8 @@
 		04849F8A1A9255C50064A890 /* PlaceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceViewController.swift; sourceTree = "<group>"; };
 		04849F8C1A92748F0064A890 /* FloorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FloorViewController.swift; sourceTree = "<group>"; };
 		04849F941A9294D10064A890 /* dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dot.png; sourceTree = "<group>"; };
+		0486065A1DCA5271002CB951 /* puppet-things.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "puppet-things.json"; sourceTree = "<group>"; };
+		0486065C1DCA527C002CB951 /* Things.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Things.swift; sourceTree = "<group>"; };
 		0493FE2B1A93AD8C00A979D7 /* People.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = People.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		0493FE2D1A93AD9B00A979D7 /* Places.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Places.swift; sourceTree = "<group>"; };
 		049609401DC9BB420094B631 /* puppet-places.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "puppet-places.json"; sourceTree = "<group>"; };
@@ -112,9 +116,10 @@
 				04849F8C1A92748F0064A890 /* FloorViewController.swift */,
 				047094C81A85A122006FACC6 /* Images.xcassets */,
 				047094BD1A85A122006FACC6 /* Supporting Files */,
+				047094E11A85A222006FACC6 /* Bobby.swift */,
 				0493FE2B1A93AD8C00A979D7 /* People.swift */,
 				0493FE2D1A93AD9B00A979D7 /* Places.swift */,
-				047094E11A85A222006FACC6 /* Bobby.swift */,
+				0486065C1DCA527C002CB951 /* Things.swift */,
 			);
 			path = Bobby;
 			sourceTree = "<group>";
@@ -124,6 +129,7 @@
 			children = (
 				04BE06971DC92FA100ACBBEA /* puppet-people.json */,
 				049609401DC9BB420094B631 /* puppet-places.json */,
+				0486065A1DCA5271002CB951 /* puppet-things.json */,
 				043557971A8E73A300A8CAED /* people@2x.png */,
 				0435579B1A8E744C00A8CAED /* rooms@2x.png */,
 				049993311A96C4CA006D647D /* tools@2x.png */,
@@ -220,6 +226,7 @@
 			files = (
 				04849F951A9294D10064A890 /* dot.png in Resources */,
 				047094C71A85A122006FACC6 /* Main.storyboard in Resources */,
+				0486065B1DCA5271002CB951 /* puppet-things.json in Resources */,
 				0435579D1A8E744C00A8CAED /* rooms@2x.png in Resources */,
 				04FA1BE41DBA8F880030C416 /* portland_floor_6.png in Resources */,
 				04FA1BE31DBA8F880030C416 /* portland_floor_5.png in Resources */,
@@ -247,6 +254,7 @@
 				043557A01A8E7ABB00A8CAED /* PersonViewController.swift in Sources */,
 				040D61221A8986CF00D29D80 /* LaunchViewController.swift in Sources */,
 				04849F8B1A9255C50064A890 /* PlaceViewController.swift in Sources */,
+				0486065D1DCA527C002CB951 /* Things.swift in Sources */,
 				047094C01A85A122006FACC6 /* AppDelegate.swift in Sources */,
 				0493FE2E1A93AD9B00A979D7 /* Places.swift in Sources */,
 				0493FE2C1A93AD8C00A979D7 /* People.swift in Sources */,

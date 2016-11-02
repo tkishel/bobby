@@ -33,7 +33,7 @@
         <!--Things-->
         <scene sceneID="CpS-vB-FGu">
             <objects>
-                <viewController title="Things" id="Axi-Au-gyS" sceneMemberID="viewController">
+                <viewController title="Things" id="Axi-Au-gyS" customClass="ThingsViewController" customModule="Bobby" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bl7-S5-Yuv"/>
                         <viewControllerLayoutGuide type="bottom" id="TZP-4h-68G"/>
@@ -44,14 +44,26 @@
                         <userGuides>
                             <userLayoutGuide location="30" affinity="minY"/>
                         </userGuides>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" restorationIdentifier="things" text="things" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iKq-yg-B5W">
+                                <rect key="frame" x="26" y="57" width="314" height="534"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <tabBarItem key="tabBarItem" title="Things" image="tools.png" id="zBp-7c-emB"/>
+                    <connections>
+                        <outlet property="thingsLabel" destination="iKq-yg-B5W" id="Dx5-wM-NsL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="seg-Xy-PkW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-160" y="782"/>
+            <point key="canvasLocation" x="-160.80000000000001" y="781.25937031484261"/>
         </scene>
         <!--PeopleTable-->
         <scene sceneID="9gC-9f-Niz">

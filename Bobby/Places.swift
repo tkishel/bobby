@@ -5,16 +5,16 @@ func downloadPlacesFile() {
         print("No API!")
         return
     }
-    let places_url = URL(string: GlobalConstants.api_places_url)
     do {
-        // let d_data = try Data(contentsOf: places_url!)
-        // TJK For testing before changes to Robby.
+        // TJK
+        // let places_url = URL(string: GlobalConstants.api_places_url)
+        // let json_string = try Data(contentsOf: places_url!)
         let test_file = Bundle.main.path(forResource: "puppet-places", ofType: "json")
         let json_string = try String(contentsOfFile: test_file!)
         // TJK
         let json_data = json_string.data(using: .utf8)!
         do {
-            _ = try JSONSerialization.jsonObject(with: json_data, options: [.allowFragments]) as! [String:AnyObject]
+            _ = try JSONSerialization.jsonObject(with: json_data, options: JSONSerialization.ReadingOptions.mutableContainers)
             let places_path = GlobalConstants.documents_directory.appendingPathComponent("places.json")
             do {
                 try json_string.write(toFile: places_path, atomically: true, encoding: .utf8)
@@ -36,13 +36,12 @@ func readPlacesFile() -> Bool {
     do {
         let json_string = try String(contentsOfFile: places_path)
         let json_data = json_string.data(using: .utf8)!
-        let json_object = try JSONSerialization.jsonObject(with: json_data, options: [.allowFragments]) as! [String:AnyObject]
-        var places = json_object["places"] as! [AnyObject]
-        places.sort { ($0["name"] as? String)! < ($1["name"] as? String)! }
+        let json_array = try JSONSerialization.jsonObject(with: json_data, options: JSONSerialization.ReadingOptions.mutableContainers)
+        var sorted_places = json_array as! [Dictionary<String, AnyObject>]
+        sorted_places.sort { ($0["name"] as? String)! < ($1["name"] as? String)! }
         placesSectionTitles.removeAllObjects()
         placesBySection.removeAllObjects()
-        for i in (0...places.count-1) {
-            let place = places[i]
+        for place in sorted_places {
             placesArray.add(place)
             let name = (place["name"] as! String)
             let first_character = String(name[name.startIndex])

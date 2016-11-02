@@ -9,9 +9,6 @@ class PlaceViewController: UIViewController {
     @IBOutlet weak var deskPhoneLabel: UILabel!
     @IBOutlet weak var extLabel: UILabel!
     @IBOutlet weak var floorLabel: UILabel!
-
-    @IBOutlet weak var callDesk: UIButton!
-
     @IBOutlet weak var showFloor: UIButton!
     @IBAction func showFloorAction(_ sender: UIButton) {
         //

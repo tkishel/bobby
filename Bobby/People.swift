@@ -5,16 +5,16 @@ func downloadPuppeteersFile() {
         print("No API!")
         return
     }
-    let people_url = URL(string: GlobalConstants.api_people_url)
     do {
-        // let d_data = try Data(contentsOf: people_url!)
-        // TJK For testing before changes to Robby.
+        // TJK
+        // let people_url = URL(string: GlobalConstants.api_people_url)
+        // let json_string = try Data(contentsOf: people_url!)
         let test_file = Bundle.main.path(forResource: "puppet-people", ofType: "json")
         let json_string = try String(contentsOfFile: test_file!)
         // TJK
         let json_data = json_string.data(using: .utf8)!
         do {
-            _ = try JSONSerialization.jsonObject(with: json_data, options: [.allowFragments]) as! [String:AnyObject]
+            _ = try JSONSerialization.jsonObject(with: json_data, options: JSONSerialization.ReadingOptions.mutableContainers)
             let people_path = GlobalConstants.documents_directory.appendingPathComponent("people.json")
             do {
                 try json_string.write(toFile: people_path, atomically: true, encoding: .utf8)
@@ -36,14 +36,13 @@ func readPuppeteersFile() -> Bool {
     do {
         let json_string = try String(contentsOfFile: people_path)
         let json_data = json_string.data(using: .utf8)!
-        let json_object = try JSONSerialization.jsonObject(with: json_data, options: [.allowFragments]) as! [String:AnyObject]
-        var puppeteers = json_object["puppeteers"] as! [AnyObject]
-        puppeteers.sort { ($0["first_name"] as? String)! < ($1["first_name"] as? String)! }
+        let json_array = try JSONSerialization.jsonObject(with: json_data, options: JSONSerialization.ReadingOptions.mutableContainers)
+        var sorted_puppeteers = json_array as! [Dictionary<String, AnyObject>]
+        sorted_puppeteers.sort { ($0["first_name"] as? String)! < ($1["first_name"] as? String)! }
         puppeteersSectionTitles.removeAllObjects()
         puppeteersBySection.removeAllObjects()
         puppeteersPhotoArray.removeAllObjects()
-        for i in (0...puppeteers.count-1) {
-            let puppeteer = puppeteers[i]
+        for puppeteer in sorted_puppeteers {
             puppeteersArray.add(puppeteer)
             let first_name = (puppeteer["first_name"] as! String)
             let first_character = String(first_name[first_name.startIndex])

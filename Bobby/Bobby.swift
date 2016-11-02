@@ -8,6 +8,7 @@ struct GlobalConstants {
     static let api_people_url = "https://robby.puppetlabs.net/people" as String
     static let api_places_url = "https://robby.puppetlabs.net/places" as String
     static let api_avatars_url = "https://robby-images.s3.amazonaws.com/" as String
+    static let api_things_url = "http://tyr.websages.com:8334/api/v1/beer" as String
     static let default_avatar = Bundle.main.path(forResource: "generic", ofType: "png")
     static let pdx_floor5 = Bundle.main.path(forResource: "portland_floor_5", ofType: "png")
     static let pdx_floor6 = Bundle.main.path(forResource: "portland_floor_6", ofType: "png")
@@ -23,6 +24,9 @@ var puppeteersPhotoArray = NSMutableDictionary()
 var placesArray: NSMutableArray = []
 var placesSectionTitles = NSMutableArray()
 var placesBySection = NSMutableDictionary()
+
+var thingsArray: NSMutableArray = []
+var thingsString: String = ""
 
 // convert to background task
 
@@ -44,11 +48,11 @@ func pingRobby() {
 
 func launchPuppetApplication() {
     pingRobby()
-    
+
     // TJK For testing before changes to Robby.
-    
+
     pingPong = true
-    
+
     print("Cache: \(GlobalConstants.documents_directory)")
 
     downloadPuppeteersFile()
@@ -59,6 +63,11 @@ func launchPuppetApplication() {
     downloadPlacesFile()
     if (!readPlacesFile()){
         downloadPlacesFile()
+    }
+
+    downloadThingsFile()
+    if (!readThingsFile()){
+        downloadThingsFile()
     }
 
     DispatchQueue.global(qos: .background).async(execute: {
