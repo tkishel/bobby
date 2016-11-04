@@ -13,6 +13,7 @@ func downloadThingsFile() {
             _ = try JSONSerialization.jsonObject(with: json_data, options: JSONSerialization.ReadingOptions.mutableContainers)
             let beer_path = GlobalConstants.documents_directory.appendingPathComponent("beers.json")
             do {
+                // try json_string.write(to: URL(fileURLWithPath: beer_path), options: .atomic)
                 try json_string.write(toFile: beer_path, atomically: true, encoding: .utf8)
                 print("Wrote Things to Cache")
             } catch let error as NSError {
@@ -35,11 +36,9 @@ func readThingsFile() -> Bool {
         let json_array = try JSONSerialization.jsonObject(with: json_data,
                                                           options: JSONSerialization.ReadingOptions.mutableContainers)
         for beer in json_array as! [Dictionary<String, AnyObject>] {
-            thingsArray.add(beer)
-            let tap = (beer["tap"] as! String)
             let brewery = (beer["brewery"] as! String)
             let beer_name = (beer["beer_name"] as! String)
-            thingsString = thingsString + "\(tap): \(brewery) \(beer_name)\n"
+            thingsArray.add("\(brewery)\n\(beer_name)")
         }
         print("Read \(thingsArray.count) Things from Cache")
     } catch let error as NSError {

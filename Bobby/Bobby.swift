@@ -26,7 +26,6 @@ var placesSectionTitles = NSMutableArray()
 var placesBySection = NSMutableDictionary()
 
 var thingsArray: NSMutableArray = []
-var thingsString: String = ""
 
 // convert to background task
 

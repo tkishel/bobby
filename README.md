@@ -16,4 +16,5 @@ Bobby downloads and displays Puppet people and places from Robby.
 
 1. Switch from local test data to endpoint data.
 2. Correctly display people and place locations on a map.
-3. Audit for logic errors and interface improvements.
+3. Add letter indexes to people and places list views.
+4. Audit for logic errors and interface improvements.
