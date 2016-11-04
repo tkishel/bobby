@@ -55,6 +55,11 @@ func launchPuppetApplication() {
 
     print("Cache: \(GlobalConstants.documents_directory)")
 
+    downloadThingsFile()
+    if (!readThingsFile()){
+        downloadThingsFile()
+    }
+    
     downloadPuppeteersFile()
     if (!readPuppeteersFile()) {
         downloadPuppeteersFile()
@@ -63,11 +68,6 @@ func launchPuppetApplication() {
     downloadPlacesFile()
     if (!readPlacesFile()){
         downloadPlacesFile()
-    }
-
-    downloadThingsFile()
-    if (!readThingsFile()){
-        downloadThingsFile()
     }
 
     DispatchQueue.global(qos: .background).async(execute: {
