@@ -1,6 +1,6 @@
 # Bobby
 
-A iOS companion to Robby.
+An iOS companion to Robby.
 
 Bobby downloads and displays Puppet people and places from Robby.  
 
