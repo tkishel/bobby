@@ -21,6 +21,9 @@ class PeopleViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.backgroundColor = UIColor.black
+        // TJK Fix!
+        self.tableView.sectionIndexColor = UIColor.red
         print("Loading People View")
         pingRobby()
         print("Loaded People View")
@@ -65,21 +68,24 @@ class PeopleViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Puppeteers")
-
         let section_key = puppeteersSectionTitles.object(at: (indexPath as NSIndexPath).section) as! NSString
         let section_objects = puppeteersBySection.object(forKey: section_key) as! NSMutableArray
 
         let puppeteer = section_objects.object(at: (indexPath as NSIndexPath).row) as! NSDictionary
 
+        cell.backgroundColor = UIColor.clear
+
         let first_name = puppeteer["first_name"] as? String
         let last_name = puppeteer["last_name"] as? String
         cell.textLabel?.text = first_name! + " " + last_name!
-
+        cell.textLabel?.textColor = UIColor.white
+        
         if let job_title = puppeteer["job_title"] as? String {
             cell.detailTextLabel?.text = job_title
         } else {
             cell.detailTextLabel?.text = ""
         }
+        cell.detailTextLabel?.textColor = UIColor.white
 
         var photo_data = Data()
 
@@ -101,6 +107,10 @@ class PeopleViewController: UITableViewController {
 
         if (photo_data.count != 0) {
             cell.imageView?.image = UIImage(data: photo_data)
+            // TJK: Scale, Round!
+            // let cellImageLayer: CALayer?  = cell.imageView?.layer
+            // cellImageLayer?.cornerRadius = (cellImageLayer?.frame.size.width)! / 2;
+            // cellImageLayer?.masksToBounds = true;
         }
 
         return cell

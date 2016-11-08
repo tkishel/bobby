@@ -122,7 +122,6 @@ class PersonViewController: UIViewController {
 
             if let mobile = puppeteer["mobile"] as? String {
                 self.mobilePhoneLabel.text = mobile
-                self.callMobile.isHidden = mobile.isEmpty
                 self.textMobile.isHidden = mobile.isEmpty
             } else {
                 self.mobilePhoneLabel.text = ""

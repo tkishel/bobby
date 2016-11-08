@@ -21,6 +21,7 @@ class PlacesViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.backgroundColor = UIColor.black
         print("Loading Places View")
         pingRobby()
         print("Loaded Places View")
@@ -69,9 +70,10 @@ class PlacesViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.subtitle, reuseIdentifier: "Place")
-
         let section_key = placesSectionTitles.object(at: (indexPath as NSIndexPath).section) as! NSString
         let section_objects = placesBySection.object(forKey: section_key) as! NSMutableArray
+
+        cell.backgroundColor = UIColor.clear
 
         let place = section_objects.object(at: (indexPath as NSIndexPath).row) as! NSDictionary
 
@@ -81,6 +83,7 @@ class PlacesViewController: UITableViewController {
         } else {
             cell.detailTextLabel?.text = location
         }
+        cell.detailTextLabel?.textColor = UIColor.white
 
         let name = place["name"] as! String
         if (name.isEmpty) {
@@ -88,6 +91,7 @@ class PlacesViewController: UITableViewController {
         } else {
             cell.textLabel?.text = name
         }
+        cell.textLabel?.textColor = UIColor.white
 
         return cell
     }

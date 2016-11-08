@@ -80,28 +80,28 @@ class PlaceViewController: UIViewController {
             }
 
             if let name = place["name"] as? String {
-                self.nameLabel.text = name
+                self.nameLabel.text = "\(name)"
             } else {
                 self.nameLabel.text = ""
             }
 
             // TJK rename label to capacity
             if let capacity = place["capacity"] as? Int {
-                self.projectLabel.text = "\(capacity)"
+                self.projectLabel.text = "Capacity: \(capacity)"
             } else {
                 self.projectLabel.text = ""
             }
 
             // TJK rename label to direction
             if let direction = place["direction"] as? String {
-                self.deskPhoneLabel.text = direction
+                self.deskPhoneLabel.text = "Direction: \(direction)"
             } else {
                 self.deskPhoneLabel.text = ""
             }
 
             // TJK rename label to equipment
             if let equipment = place["equipment"] as? String {
-                self.extLabel.text = equipment
+                self.extLabel.text = "A/V: \(equipment)"
             } else {
                 self.extLabel.text = ""
             }
